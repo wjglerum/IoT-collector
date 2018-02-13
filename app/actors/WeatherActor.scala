@@ -7,20 +7,19 @@ import services.{InfluxDBService, TadoService}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class TadoActor @Inject()(tadoAPI: TadoService,
-                          influxDBService: InfluxDBService)(implicit ec: ExecutionContext) extends Actor {
+class WeatherActor @Inject()(tadoAPI: TadoService,
+                             influxDBService: InfluxDBService)(implicit ec: ExecutionContext) extends Actor {
 
   def receive = {
-    case Poll(id) =>
-      Logger.info("--- Polling tado ---")
-      tadoAPI.state(id).flatMap {
+    case Poll =>
+      Logger.info("--- Polling weather ---")
+      tadoAPI.weather.flatMap {
         case Left(error) => Future.successful(Logger.error(error))
         case Right(measurement) =>
           implicit val tags: Seq[(String, String)] = Seq(
-            "device" -> "tado",
-            "deviceId" -> id.toString
+            "device" -> "tado"
           )
-          influxDBService.store("tado", Seq(measurement))
+          influxDBService.store("weather", Seq(measurement))
       }
   }
 }

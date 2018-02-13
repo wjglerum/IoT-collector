@@ -9,6 +9,6 @@ scalaVersion := "2.12.3"
 
 libraryDependencies ++= Seq(
   guice, ws,
-  "io.waylay.influxdb" %% "influxdb-scala" % "2.0.0",
+  "io.waylay.influxdb" %% "influxdb-scala" % "2.0.1-SNAPSHOT",
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )

@@ -1,4 +1,4 @@
-package models
+package config
 
 import com.typesafe.config.Config
 import play.api.ConfigLoader

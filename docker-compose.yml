@@ -1,0 +1,32 @@
+influxdb:
+  image: influxdb:latest
+  container_name: influxdb
+  ports:
+    - "8083:8083"
+    - "8086:8086"
+    - "8090:8090"
+  env_file:
+    - 'env.influxdb'
+  volumes:
+    # Data persistency
+    - monitoring:/var/lib/influxdb
+
+grafana:
+  image: grafana/grafana:latest
+  container_name: grafana
+  ports:
+    - "3000:3000"
+  env_file:
+    - 'env.grafana'
+  links:
+    - influxdb
+
+tado-api:
+  image: wjglerum/tado-api:latest
+  container_name: tado-api
+  ports:
+    - "9000:9000"
+  env_file:
+    - tado-api.env
+  links:
+    - grafana

@@ -1,15 +1,13 @@
 package controllers
 
-import java.time.Instant
 import javax.inject._
 
-import io.waylay.influxdb.Influx.{IFloat, IPoint}
 import play.api.Configuration
 import play.api.libs.ws.WSClient
 import play.api.mvc._
-import services.{InfluxDBAPI, TadoAPI}
+import services.{DomoticzService, InfluxDBService, TadoService}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -17,10 +15,11 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents,
-                               tadoAPI: TadoAPI,
                                configuration: Configuration,
                                ws: WSClient,
-                               influxDBAPI: InfluxDBAPI)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+                               tadoAPI: TadoService,
+                               domoticzService: DomoticzService,
+                               influxDBService: InfluxDBService)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   /**
     * Create an Action to render an HTML page.
@@ -33,26 +32,24 @@ class HomeController @Inject()(cc: ControllerComponents,
     Ok(views.html.index())
   }
 
-  def weather = Action.async {
-    tadoAPI.weather.flatMap {
-      case Left(error) => Future.successful(BadRequest(error))
-      case Right(weather) =>
-        val timestamp = Instant.parse(weather.outsideTemperature.timestamp)
-        val temperature = IPoint(measurementName = "temperature", tags = Seq("device" -> "tado"), fields = Seq("celsius" -> IFloat(weather.outsideTemperature.celsius.toFloat)), timestamp = timestamp)
-        val solarIntensity = IPoint(measurementName = "solarIntensity", tags = Seq("device" -> "tado"), fields = Seq("percentage" -> IFloat(weather.solarIntensity.percentage)), timestamp = timestamp)
-        influxDBAPI.store("weatherOutside", Seq(temperature, solarIntensity)).map(_ => Ok(weather.toString))
+  def weather: Action[AnyContent] = Action.async {
+    tadoAPI.weather.map {
+      case Left(error) => BadRequest(error)
+      case Right(weather) => Ok(weather.toString)
     }
   }
 
-  def state = Action.async {
-    tadoAPI.state(1).flatMap {
-      case Left(error) => Future.successful(BadRequest(error))
-      case Right(state) =>
-        val timestamp = Instant.parse(state.sensorDataPoints.insideTemperature.timestamp)
-        val temperature = IPoint(measurementName = "temperature", tags = Seq("device" -> "tado"), fields = Seq("celsius" -> IFloat(state.sensorDataPoints.insideTemperature.celsius.toFloat)), timestamp = timestamp)
-        val humidity = IPoint(measurementName = "humidity", tags = Seq("device" -> "tado"), fields = Seq("humidity" -> IFloat(state.sensorDataPoints.humidity.percentage.toFloat)), timestamp = timestamp)
-        val heatingPower = IPoint(measurementName = "heatingPower", tags = Seq("device" -> "tado"), fields = Seq("heatingPower" -> IFloat(state.activityDataPoints.heatingPower.percentage)), timestamp = timestamp)
-        influxDBAPI.store("tado", Seq(temperature, humidity, heatingPower)).map(_ => Ok(state.toString))
+  def state(id: Int): Action[AnyContent] = Action.async {
+    tadoAPI.state(id).map {
+      case Left(error) => BadRequest(error)
+      case Right(state) => Ok(state.toString)
+    }
+  }
+
+  def energy(id: Int): Action[AnyContent] = Action.async {
+    domoticzService.utility(id).map {
+      case Left(error) => BadRequest(error)
+      case Right(state) => Ok(state.toString)
     }
   }
 }
