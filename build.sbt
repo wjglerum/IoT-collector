@@ -1,4 +1,4 @@
-name := """tado-api"""
+name := """iot-collector"""
 organization := "nl.wjglerum"
 
 version := "1.0-SNAPSHOT"
@@ -12,3 +12,6 @@ libraryDependencies ++= Seq(
   "io.waylay.influxdb" %% "influxdb-scala" % "2.0.1-SNAPSHOT",
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )
+
+dockerUpdateLatest := true
+dockerUsername := Some("wjglerum")

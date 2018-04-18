@@ -8,7 +8,6 @@ influxdb:
   env_file:
     - 'env.influxdb'
   volumes:
-    # Data persistency
     - monitoring:/var/lib/influxdb
 
 grafana:
@@ -22,8 +21,8 @@ grafana:
     - influxdb
 
 tado-api:
-  image: wjglerum/tado-api:latest
-  container_name: tado-api
+  image: wjglerum/iot-collector:latest
+  container_name: iot-collector
   ports:
     - "9000:9000"
   env_file:

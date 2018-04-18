@@ -8,10 +8,10 @@ case class InfluxDBConfig(host: String,
                           username: String,
                           password: String,
                           schema: String,
-                          defaultRetention: String)
+                          defaultRetention: String,
+                          database: String)
 
 object InfluxDBConfig {
-
   implicit val configLoader: ConfigLoader[InfluxDBConfig] = (rootConfig: Config, path: String) => {
     val config = rootConfig.getConfig(path)
 
@@ -21,7 +21,8 @@ object InfluxDBConfig {
       username = config.getString("username"),
       password = config.getString("password"),
       schema = config.getString("schema"),
-      defaultRetention = config.getString("defaultRetention")
+      defaultRetention = config.getString("defaultRetention"),
+      database = config.getString("database")
     )
   }
 }
