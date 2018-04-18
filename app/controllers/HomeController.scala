@@ -1,17 +1,18 @@
 package controllers
 
-import actors.Sensor.{Reading, ReadingByID}
+
+import actors.Sensor.{Reading, ReadingByID, Error => SensorError}
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.Timeout
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import models.{Energy, OutsideWeather, Thermostat}
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc._
 
-import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 
 class HomeController @Inject()(@Named("energySensor") energySensor: ActorRef,
@@ -26,26 +27,19 @@ class HomeController @Inject()(@Named("energySensor") energySensor: ActorRef,
   }
 
   def energy(id: Int) = Action.async { implicit request =>
-    (energySensor ? ReadingByID(id)).mapTo[Energy].map { measurement =>
-      Ok(Json.toJson(measurement))
-    }.recover {
-      case t => Ok(t.getMessage)
-    }
+    process[Energy](energySensor ? ReadingByID(id))
+  }
+
+  private def process[T](request: Future[Any])(implicit tjs: Writes[T]): Future[Result] = request.map {
+    case error: SensorError => BadRequest(error.message)
+    case measurement: T => Ok(Json.toJson(measurement))
   }
 
   def thermostat(id: Int) = Action.async { implicit request =>
-    (thermostatSensor ? ReadingByID(id)).mapTo[Thermostat].map { measurement =>
-      Ok(Json.toJson(measurement))
-    }.recover {
-      case t => Ok(t.getMessage)
-    }
+    process[Thermostat](thermostatSensor ? ReadingByID(id))
   }
 
   def weather = Action.async { implicit request =>
-    (weatherSensor ? Reading).mapTo[OutsideWeather].map { weather =>
-      Ok(Json.toJson(weather))
-    }.recover {
-      case t => Ok(t.getMessage)
-    }
+    process[OutsideWeather](weatherSensor ? Reading)
   }
 }
