@@ -2,7 +2,7 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:1140",
+        "$$hashKey": "object:176",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -17,9 +17,177 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1523981076850,
+  "iteration": 1524040687231,
   "links": [],
   "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Solar Intensity",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "$$hashKey": "object:232",
+          "alias": "Temperature",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "weather_outside",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "temperature"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=",
+              "value": "tado"
+            }
+          ]
+        },
+        {
+          "$$hashKey": "object:492",
+          "alias": "Solar Intensity",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "weather_outside",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "solarIntensity"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "device",
+              "operator": "=",
+              "value": "tado"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Weather",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:282",
+          "format": "celsius",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:283",
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
     {
       "aliasColors": {},
       "bars": false,
@@ -31,7 +199,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 4,
       "legend": {
@@ -53,6 +221,13 @@
       "renderer": "flot",
       "repeat": "zone_id",
       "repeatDirection": "h",
+      "scopedVars": {
+        "zone_id": {
+          "selected": true,
+          "text": "1",
+          "value": "1"
+        }
+      },
       "seriesOverrides": [
         {
           "alias": "HeatingPower",
@@ -68,7 +243,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1455",
           "alias": "Temperature",
           "groupBy": [
             {
@@ -118,7 +292,6 @@
           ]
         },
         {
-          "$$hashKey": "object:1607",
           "alias": "Humidity",
           "groupBy": [
             {
@@ -168,7 +341,6 @@
           ]
         },
         {
-          "$$hashKey": "object:1795",
           "alias": "HeatingPower",
           "groupBy": [
             {
@@ -237,7 +409,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1516",
           "format": "celsius",
           "label": null,
           "logBase": 1,
@@ -246,7 +417,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1517",
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -267,7 +437,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 17
       },
       "id": 2,
       "legend": {
@@ -291,7 +461,6 @@
       "repeatDirection": "h",
       "scopedVars": {
         "energy_sensor_id": {
-          "$$hashKey": "object:2509",
           "selected": true,
           "text": "1",
           "value": "1"
@@ -312,7 +481,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:1191",
           "alias": "Usage",
           "groupBy": [
             {
@@ -362,7 +530,6 @@
           ]
         },
         {
-          "$$hashKey": "object:1192",
           "alias": "CounterToday",
           "groupBy": [
             {
@@ -431,7 +598,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1357",
           "format": "watt",
           "label": null,
           "logBase": 1,
@@ -440,7 +606,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1358",
           "format": "kwatth",
           "label": null,
           "logBase": 1,
@@ -472,7 +637,6 @@
         "name": "energy_sensor_id",
         "options": [
           {
-            "$$hashKey": "object:2509",
             "selected": true,
             "text": "1",
             "value": "1"
@@ -495,7 +659,6 @@
         "name": "zone_id",
         "options": [
           {
-            "$$hashKey": "object:2512",
             "selected": true,
             "text": "1",
             "value": "1"
@@ -538,5 +701,5 @@
   "timezone": "",
   "title": "IoT",
   "uid": "FkVPC5Wmk",
-  "version": 10
+  "version": 3
 }

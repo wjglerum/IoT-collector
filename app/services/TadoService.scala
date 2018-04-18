@@ -5,7 +5,7 @@ import java.util.Date
 
 import com.google.inject.Inject
 import config.TadoConfig
-import models.Thermostat
+import models.{OutsideWeather, Thermostat}
 import play.api.Configuration
 import play.api.http.Status.OK
 import play.api.libs.json.JsonNaming.SnakeCase
@@ -35,7 +35,16 @@ class TadoService @Inject()(configuration: Configuration,
     heatingPower = state.activityDataPoints.heatingPower.percentage
   )
 
-  def weather: ResponseF[Weather] = get[Weather](s"homes/${tadoConfig.homeId}/weather")
+  def weather: ResponseF[OutsideWeather] = get[Weather](s"homes/${tadoConfig.homeId}/weather").map {
+    case Left(error) => Left(error)
+    case Right(weather) => Right(weatherToOutsideWeather(weather))
+  }
+
+  private def weatherToOutsideWeather(weather: Weather) = OutsideWeather(
+    timestamp = Instant.parse(weather.outsideTemperature.timestamp),
+    temperature = weather.outsideTemperature.celsius,
+    solarIntensity = weather.solarIntensity.percentage
+  )
 
   private def get[T](path: String)(implicit tjs: Reads[T]): ResponseF[T] = {
     getToken.flatMap {
