@@ -30,16 +30,19 @@ class HomeController @Inject()(@Named("energySensor") energySensor: ActorRef,
     process[Energy](energySensor ? ReadingByID(id))
   }
 
-  private def process[T](request: Future[Any])(implicit tjs: Writes[T]): Future[Result] = request.map {
-    case error: SensorError => BadRequest(error.message)
-    case measurement: T => Ok(Json.toJson(measurement))
-  }
-
   def thermostat(id: Int) = Action.async { implicit request =>
     process[Thermostat](thermostatSensor ? ReadingByID(id))
   }
 
   def weather = Action.async { implicit request =>
     process[OutsideWeather](weatherSensor ? Reading)
+  }
+
+  private def process[T](request: Future[Any])(implicit tjs: Writes[T]): Future[Result] = request.map {
+    case measurement: Energy => Ok(Json.toJson(measurement))
+    case measurement: Thermostat => Ok(Json.toJson(measurement))
+    case measurement: OutsideWeather => Ok(Json.toJson(measurement))
+    case error: SensorError => BadRequest(error.message)
+    case _ => InternalServerError("Unknown message received")
   }
 }

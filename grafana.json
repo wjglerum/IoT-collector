@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:218",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -17,7 +16,6 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1524089489019,
   "links": [],
   "panels": [
     {
@@ -161,7 +159,7 @@
         "x": 4,
         "y": 0
       },
-      "id": 10,
+      "id": 12,
       "interval": null,
       "links": [],
       "mappingType": 1,
@@ -212,7 +210,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "weather_outside",
+          "measurement": "thermostat",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -236,12 +234,18 @@
               "key": "device",
               "operator": "=",
               "value": "tado"
+            },
+            {
+              "condition": "AND",
+              "key": "zone",
+              "operator": "=",
+              "value": "1"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Outside Temperature",
+      "title": "Inside Temperature",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -411,7 +415,7 @@
       "repeatDirection": "h",
       "scopedVars": {
         "energy_sensor_id": {
-          "selected": false,
+          "selected": true,
           "text": "1",
           "value": "1"
         }
@@ -478,8 +482,8 @@
             {
               "condition": "AND",
               "key": "sensorId",
-              "operator": "=~",
-              "value": "/^$energy_sensor_id$/"
+              "operator": "=",
+              "value": "1"
             }
           ]
         },
@@ -527,8 +531,8 @@
             {
               "condition": "AND",
               "key": "sensorId",
-              "operator": "=~",
-              "value": "/^$energy_sensor_id$/"
+              "operator": "=",
+              "value": "1"
             }
           ]
         }
@@ -593,7 +597,7 @@
         "x": 0,
         "y": 5
       },
-      "id": 12,
+      "id": 10,
       "interval": null,
       "links": [],
       "mappingType": 1,
@@ -644,7 +648,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "thermostat",
+          "measurement": "weather_outside",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -668,18 +672,12 @@
               "key": "device",
               "operator": "=",
               "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Inside Temperature",
+      "title": "Outside Temperature",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1010,6 +1008,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1053,6 +1057,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1139,7 +1149,7 @@
       "repeatDirection": "h",
       "scopedVars": {
         "zone_id": {
-          "selected": false,
+          "selected": true,
           "text": "1",
           "value": "1"
         }
@@ -1194,6 +1204,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1206,8 +1222,8 @@
             {
               "condition": "AND",
               "key": "zone",
-              "operator": "=~",
-              "value": "/^$zone_id$/"
+              "operator": "=",
+              "value": "1"
             }
           ]
         },
@@ -1243,6 +1259,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1255,8 +1277,8 @@
             {
               "condition": "AND",
               "key": "zone",
-              "operator": "=~",
-              "value": "/^$zone_id$/"
+              "operator": "=",
+              "value": "1"
             }
           ]
         },
@@ -1292,6 +1314,12 @@
               {
                 "params": [],
                 "type": "mean"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1304,8 +1332,8 @@
             {
               "condition": "AND",
               "key": "zone",
-              "operator": "=~",
-              "value": "/^$zone_id$/"
+              "operator": "=",
+              "value": "1"
             }
           ]
         }
@@ -1348,73 +1376,16 @@
       ]
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {
-          "text": "All",
-          "value": [
-            "$__all"
-          ]
-        },
-        "hide": 0,
-        "includeAll": true,
-        "label": "Energy Meter",
-        "multi": true,
-        "name": "energy_sensor_id",
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "1",
-            "value": "1"
-          }
-        ],
-        "query": "1",
-        "type": "custom"
-      },
-      {
-        "allValue": null,
-        "current": {
-          "text": "All",
-          "value": [
-            "$__all"
-          ]
-        },
-        "hide": 0,
-        "includeAll": true,
-        "label": "Zones",
-        "multi": true,
-        "name": "zone_id",
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "1",
-            "value": "1"
-          }
-        ],
-        "query": "1",
-        "type": "custom"
-      }
-    ]
+    "list": []
   },
   "time": {
-    "from": "2018-04-18T19:40:53.414Z",
-    "to": "2018-04-18T22:11:39.100Z"
+    "from": "now-2d",
+    "to": "now"
   },
   "timepicker": {
     "hidden": false,
@@ -1442,8 +1413,8 @@
       "30d"
     ]
   },
-  "timezone": "",
+  "timezone": "utc",
   "title": "Willem's Home",
   "uid": "FkVPC5Wmk",
-  "version": 14
+  "version": 29
 }

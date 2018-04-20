@@ -50,6 +50,8 @@ class TadoService @Inject()(configuration: Configuration,
     getToken.flatMap {
       case Left(error) => Future.successful(Left(error))
       case Right(authResponse) => withAuth[T](path, authResponse.accessToken)
+    }.recover {
+      case t => Left(t.getMessage)
     }
   }
 

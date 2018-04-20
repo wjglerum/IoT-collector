@@ -53,11 +53,9 @@ object DomoticzService {
       override val toString = "PascalCase"
 
       def apply(property: String): String =
-        if (property.length > 0) {
-          property.updated(0, Character.toUpperCase(property charAt 0))
-        } else {
-          property
-        }
+        if (property.length > 0)
+          property.updated(0, property.head.toUpper)
+        else property
     }
 
     implicit val config: JsonConfiguration.Aux[Json.MacroOptions] = JsonConfiguration(PascalCase)
