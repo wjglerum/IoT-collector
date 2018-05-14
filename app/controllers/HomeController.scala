@@ -1,6 +1,7 @@
 package controllers
 
 
+import actors.MQTTActor
 import actors.Sensor.{Reading, ReadingByID, Error => SensorError}
 import akka.actor.ActorRef
 import akka.pattern.ask
@@ -15,10 +16,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 
-class HomeController @Inject()(@Named("energySensor") energySensor: ActorRef,
-                               @Named("thermostatSensor") thermostatSensor: ActorRef,
-                               @Named("weatherSensor") weatherSensor: ActorRef,
-                               cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   implicit private val timeout: Timeout = 5 seconds
 
@@ -26,17 +24,6 @@ class HomeController @Inject()(@Named("energySensor") energySensor: ActorRef,
     Ok(views.html.index())
   }
 
-  def energy(id: Int) = Action.async { implicit request =>
-    process[Energy](energySensor ? ReadingByID(id))
-  }
-
-  def thermostat(id: Int) = Action.async { implicit request =>
-    process[Thermostat](thermostatSensor ? ReadingByID(id))
-  }
-
-  def weather = Action.async { implicit request =>
-    process[OutsideWeather](weatherSensor ? Reading)
-  }
 
   private def process[T](request: Future[Any])(implicit tjs: Writes[T]): Future[Result] = request.map {
     case measurement: Energy => Ok(Json.toJson(measurement))

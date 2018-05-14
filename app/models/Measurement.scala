@@ -13,6 +13,18 @@ sealed trait Measurement {
   def toPointWithTags(tags: Seq[Tag]): IPoint
 }
 
+case class RPI(timestamp: Instant, temperature: Double, humidity: Double) extends Measurement {
+  override def toPointWithTags(tags: Seq[(String, String)]): IPoint = IPoint(
+    measurementName = "rpi",
+    tags = tags,
+    fields = Seq(
+      "temperature" -> IFloat(temperature),
+      "humidity" -> IFloat(humidity)
+    ),
+    timestamp = timestamp
+  )
+}
+
 case class Energy(timestamp: Instant, usage: Double, counterToday: Double, counter: Double) extends Measurement {
   override def toPointWithTags(tags: Seq[Tag]): IPoint = IPoint(
     measurementName = "energy",
@@ -22,7 +34,7 @@ case class Energy(timestamp: Instant, usage: Double, counterToday: Double, count
       "counterToday" -> IFloat(counterToday),
       "counter" -> IFloat(counter)
     ),
-    timestamp = Instant.now
+    timestamp = timestamp
   )
 }
 
