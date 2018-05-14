@@ -79,6 +79,7 @@
       "tableColumn": "",
       "targets": [
         {
+          "$$hashKey": "object:291",
           "groupBy": [
             {
               "params": [
@@ -132,7 +133,7 @@
           "value": "null"
         }
       ],
-      "valueName": "avg"
+      "valueName": "current"
     },
     {
       "cacheTimeout": null,
@@ -311,6 +312,7 @@
       "tableColumn": "",
       "targets": [
         {
+          "$$hashKey": "object:448",
           "groupBy": [
             {
               "params": [
@@ -823,7 +825,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "1s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -831,8 +833,8 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
-    "to": "now"
+    "from": "now+1h",
+    "to": "now+2h"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -859,8 +861,8 @@
       "30d"
     ]
   },
-  "timezone": "",
+  "timezone": "utc",
   "title": "Scala Days 2018",
   "uid": "jlUWBbkgz",
-  "version": 3
+  "version": 6
 }
