@@ -27,10 +27,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
-      "format": "percent",
+      "datasource": "influxdb",
+      "format": "celsius",
       "gauge": {
-        "maxValue": 100,
+        "maxValue": 40,
         "minValue": 0,
         "show": true,
         "thresholdLabels": false,
@@ -38,7 +38,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
+        "w": 6,
         "x": 0,
         "y": 0
       },
@@ -93,7 +93,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "weather_outside",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -102,28 +102,27 @@
             [
               {
                 "params": [
-                  "solarIntensity"
+                  "temperature"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               }
             ]
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "tado"
+              "value": "green"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Solar Intensity",
-      "transparent": false,
+      "title": "Temperature Green",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -133,7 +132,7 @@
           "value": "null"
         }
       ],
-      "valueName": "current"
+      "valueName": "avg"
     },
     {
       "cacheTimeout": null,
@@ -144,19 +143,19 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
-      "format": "celsius",
+      "datasource": "influxdb",
+      "format": "humidity",
       "gauge": {
-        "maxValue": 40,
-        "minValue": -20,
+        "maxValue": 100,
+        "minValue": 0,
         "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": false
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 4,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "id": 12,
@@ -210,7 +209,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "thermostat",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -219,7 +218,7 @@
             [
               {
                 "params": [
-                  "temperature"
+                  "humidity"
                 ],
                 "type": "field"
               },
@@ -231,21 +230,15 @@
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
+              "value": "green"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Inside Temperature",
+      "title": "Humidity Green",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -266,10 +259,10 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
-      "format": "watt",
+      "datasource": "influxdb",
+      "format": "celsius",
       "gauge": {
-        "maxValue": 3500,
+        "maxValue": 40,
         "minValue": 0,
         "show": true,
         "thresholdLabels": false,
@@ -277,11 +270,11 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 8,
+        "w": 6,
+        "x": 12,
         "y": 0
       },
-      "id": 18,
+      "id": 6,
       "interval": null,
       "links": [],
       "mappingType": 1,
@@ -332,7 +325,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "energy",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -341,7 +334,7 @@
             [
               {
                 "params": [
-                  "usage"
+                  "temperature"
                 ],
                 "type": "field"
               },
@@ -353,21 +346,15 @@
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "domoticz"
-            },
-            {
-              "condition": "AND",
-              "key": "sensorId",
-              "operator": "=",
-              "value": "1"
+              "value": "red"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Energy Usage",
+      "title": "Temperature Red",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -380,200 +367,6 @@
       "valueName": "current"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 1,
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 2,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "repeat": "energy_sensor_id",
-      "repeatDirection": "h",
-      "scopedVars": {
-        "energy_sensor_id": {
-          "selected": true,
-          "text": "1",
-          "value": "1"
-        }
-      },
-      "seriesOverrides": [
-        {
-          "alias": "Counter",
-          "yaxis": 2
-        },
-        {
-          "alias": "CounterToday",
-          "yaxis": 2
-        },
-        {
-          "alias": "Counter Today",
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Energy Usage",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "energy",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "usage"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "domoticz"
-            },
-            {
-              "condition": "AND",
-              "key": "sensorId",
-              "operator": "=",
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "alias": "Counter Today",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "energy",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "counterToday"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "domoticz"
-            },
-            {
-              "condition": "AND",
-              "key": "sensorId",
-              "operator": "=",
-              "value": "1"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Electricity Meter",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "watt",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "kwatth",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
@@ -582,20 +375,20 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
-      "format": "celsius",
+      "datasource": "influxdb",
+      "format": "humidity",
       "gauge": {
-        "maxValue": 40,
-        "minValue": -20,
+        "maxValue": 100,
+        "minValue": 0,
         "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": false
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 0,
-        "y": 5
+        "w": 6,
+        "x": 18,
+        "y": 0
       },
       "id": 10,
       "interval": null,
@@ -634,6 +427,7 @@
       "tableColumn": "",
       "targets": [
         {
+          "alias": "",
           "groupBy": [
             {
               "params": [
@@ -648,123 +442,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "weather_outside",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "tado"
-            }
-          ]
-        }
-      ],
-      "thresholds": "",
-      "title": "Outside Temperature",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": null,
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": false
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 4,
-        "y": 5
-      },
-      "id": 14,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "thermostat",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -785,21 +463,15 @@
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
+              "value": "red"
             }
           ]
         }
       ],
       "thresholds": "",
-      "title": "Inside Humidity",
+      "title": "Humidity Red",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -812,319 +484,19 @@
       "valueName": "current"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": null,
-      "format": "percent",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": false
+      "aliasColors": {
+        "Red": "#bf1b00"
       },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 8,
-        "y": 5
-      },
-      "id": 16,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "thermostat",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "heatingPower"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
-            }
-          ]
-        }
-      ],
-      "thresholds": "",
-      "title": "Heating Power",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "influxdb",
       "fill": 1,
       "gridPos": {
-        "h": 10,
-        "w": 12,
+        "h": 8,
+        "w": 24,
         "x": 0,
-        "y": 10
-      },
-      "id": 6,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Solar Intensity",
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Temperature",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "weather_outside",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  10
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "tado"
-            }
-          ]
-        },
-        {
-          "alias": "Solar Intensity",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "weather_outside",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "solarIntensity"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  10
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "tado"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Weather",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": null,
-          "format": "celsius",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "decimals": null,
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": "100",
-          "min": "0",
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fill": 1,
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 10
+        "y": 5
       },
       "id": 4,
       "legend": {
@@ -1145,35 +517,13 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeat": "zone_id",
-      "repeatDirection": "h",
-      "scopedVars": {
-        "zone_id": {
-          "selected": true,
-          "text": "1",
-          "value": "1"
-        }
-      },
-      "seriesOverrides": [
-        {
-          "alias": "HeatingPower",
-          "yaxis": 2
-        },
-        {
-          "alias": "Humidity",
-          "yaxis": 2
-        },
-        {
-          "alias": "Heating Power",
-          "yaxis": 2
-        }
-      ],
+      "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Temperature",
+          "alias": "Green",
           "groupBy": [
             {
               "params": [
@@ -1188,7 +538,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "thermostat",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -1204,31 +554,19 @@
               {
                 "params": [],
                 "type": "mean"
-              },
-              {
-                "params": [
-                  10
-                ],
-                "type": "moving_average"
               }
             ]
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
+              "value": "green"
             }
           ]
         },
         {
-          "alias": "Humidity",
+          "alias": "Red",
           "groupBy": [
             {
               "params": [
@@ -1243,7 +581,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "thermostat",
+          "measurement": "rpi",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "B",
@@ -1252,88 +590,21 @@
             [
               {
                 "params": [
-                  "humidity"
+                  "temperature"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
                 "type": "mean"
-              },
-              {
-                "params": [
-                  10
-                ],
-                "type": "moving_average"
               }
             ]
           ],
           "tags": [
             {
-              "key": "device",
+              "key": "sensor",
               "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "alias": "Heating Power",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "none"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "thermostat",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "heatingPower"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              },
-              {
-                "params": [
-                  10
-                ],
-                "type": "moving_average"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "tado"
-            },
-            {
-              "condition": "AND",
-              "key": "zone",
-              "operator": "=",
-              "value": "1"
+              "value": "red"
             }
           ]
         }
@@ -1341,7 +612,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Thermostat",
+      "title": "Temperature",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1365,18 +636,194 @@
           "show": true
         },
         {
-          "decimals": null,
-          "format": "percent",
+          "format": "short",
           "label": null,
           "logBase": 1,
-          "max": "100",
-          "min": "0",
+          "max": null,
+          "min": null,
           "show": true
         }
-      ]
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "Red": "#bf1b00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "influxdb",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeat": null,
+      "repeatDirection": "h",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "Green",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "rpi",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"humidity\") FROM \"rpi\" WHERE (\"sensor\" =~ /^$colour$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "humidity"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "sensor",
+              "operator": "=",
+              "value": "green"
+            }
+          ]
+        },
+        {
+          "alias": "Red",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "rpi",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "humidity"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "sensor",
+              "operator": "=",
+              "value": "red"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Humidity",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "humidity",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
-  "refresh": "10s",
+  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -1384,11 +831,10 @@
     "list": []
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
-    "hidden": false,
     "refresh_intervals": [
       "5s",
       "10s",
@@ -1413,8 +859,8 @@
       "30d"
     ]
   },
-  "timezone": "utc",
-  "title": "Willem's Home",
-  "uid": "FkVPC5Wmk",
-  "version": 29
+  "timezone": "",
+  "title": "Scala Days 2018",
+  "uid": "jlUWBbkgz",
+  "version": 3
 }
