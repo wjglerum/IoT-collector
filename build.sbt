@@ -1,7 +1,7 @@
 name := """iot-collector"""
 organization := "nl.wjglerum"
 
-version := "1.0-SCALA-DAYS-2018"
+version := "1.0-MESOS-MEETUP-2018"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DockerPlugin)
 
@@ -16,6 +16,6 @@ libraryDependencies ++= Seq(
 
 //dockerUpdateLatest := true
 dockerUsername := Some("wjglerum")
-dockerBaseImage := "arm64v8/openjdk"
+//dockerBaseImage := "arm64v8/openjdk"
 
 mappings in Universal ~= (_.filterNot(_._1.name == "overrides.conf"))
