@@ -1,0 +1,27 @@
+{
+  "service": {
+    "name": "influxdb",
+    "cpus": 1,
+    "mem": 2048
+  },
+  "storage": {
+    "host_volume_influxdb": "/tmp",
+    "persistence": {
+      "enable": true,
+      "volume_mode_influxdb": "RW"
+    }
+  },
+  "networking": {
+    "port_api": 8086,
+    "external_access": {
+      "enable": false,
+      "external_public_agent_ip": "",
+      "external_access_port": 18086
+    }
+  },
+  "configuration": {
+    "INFLUXDB_RETENTION_ENABLED": true,
+    "INFLUXDB_RETENTION_CHECK_INTERVAL": "30m0s",
+    "INFLUXDB_MONITOR_STORE_DATABASE": "_internal"
+  }
+}
