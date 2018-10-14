@@ -1,29 +1,15 @@
-influxdb:
-  image: influxdb:latest
-  container_name: influxdb
-  ports:
-    - "8083:8083"
-    - "8086:8086"
-    - "8090:8090"
-  volumes:
-    - monitoring:/var/lib/influxdb
-
-grafana:
-  image: grafana/grafana:latest
-  container_name: grafana
-  ports:
-    - "3000:3000"
-  links:
-    - influxdb
-  volumes:
-    - grafana:/var/lib/grafana
-
 iot-collector:
-  image: wjglerum/iot-collector:latest
+  image: wjglerum/iot-collector:1.0-WS-2018
   container_name: iot-collector
+  environment:
+    - PLAY_SECRET=1308tuy203w8ytq3ut0q32t
   ports:
     - "9000:9000"
-  env_file:
-    - docker.env
   links:
-    - influxdb
+    - mosquitto
+
+mosquitto:
+  image: eclipse-mosquitto
+  container_name: mosquitto
+  ports:
+  - "1883:1883"

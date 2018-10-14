@@ -1,7 +1,7 @@
 name := """iot-collector"""
 organization := "nl.wjglerum"
 
-version := "1.0-MESOS-MEETUP-2018"
+version := "1.0-WS-2018"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DockerPlugin)
 
