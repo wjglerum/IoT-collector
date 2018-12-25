@@ -16,6 +16,6 @@ object Sensor {
 
   case object Reading
 
-  case object PollKey
+  case class PollKey(id: Int)
 
 }

@@ -22,7 +22,7 @@ class ThermostatSensor @Inject()(configuration: Configuration,
   private val tadoConfig = configuration.get[TadoConfig]("tado")
 
   override def preStart(): Unit = tadoConfig.zones.foreach { id =>
-    timers.startPeriodicTimer(PollKey, PollByID(id), 1 minute)
+    timers.startPeriodicTimer(PollKey(id), PollByID(id), 1 minute)
   }
 
   override def receive: Receive = {

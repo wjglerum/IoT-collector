@@ -22,7 +22,7 @@ class EnergySensor @Inject()(configuration: Configuration,
   val domoticzConfig: DomoticzConfig = configuration.get[DomoticzConfig]("domoticz")
 
   override def preStart(): Unit = domoticzConfig.sensors.foreach { id =>
-    timers.startPeriodicTimer(PollKey, PollByID(id), 10 seconds)
+    timers.startPeriodicTimer(PollKey(id), PollByID(id), 10 seconds)
   }
 
   override def receive: Receive = {
