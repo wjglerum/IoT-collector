@@ -22,7 +22,7 @@ case class Energy(timestamp: Instant, usage: Double, counterToday: Double, count
       "counterToday" -> IFloat(counterToday),
       "counter" -> IFloat(counter)
     ),
-    timestamp = Instant.now
+    timestamp = timestamp
   )
 }
 
