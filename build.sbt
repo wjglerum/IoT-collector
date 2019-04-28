@@ -5,7 +5,7 @@ version := "1.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DockerPlugin)
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.8"
 
 libraryDependencies ++= Seq(
   guice, ws,

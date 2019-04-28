@@ -18,11 +18,13 @@ class WeatherSensor @Inject()(configuration: Configuration,
                               @Named("storageActor") storageActor: ActorRef)
                              (implicit ec: ExecutionContext) extends Sensor {
 
+  private val logger: Logger = Logger(this.getClass)
+
   override def preStart(): Unit = timers.startPeriodicTimer(PollKey, Poll, 5 minutes)
 
   override def receive: Receive = {
     case Poll =>
-      Logger.info(s"Polling weather")
+      logger.info(s"Polling weather")
       tadoService.weather.map {
         case Left(message) => Error(message)
         case Right(weather) =>
@@ -30,7 +32,7 @@ class WeatherSensor @Inject()(configuration: Configuration,
           StoreWithTags(weather, tags)
       } pipeTo storageActor
     case Reading =>
-      Logger.info(s"Reading weather")
+      logger.info(s"Reading weather")
       tadoService.weather.map {
         case Left(message) => Error(message)
         case Right(measurement) => measurement

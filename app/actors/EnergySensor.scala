@@ -19,7 +19,8 @@ class EnergySensor @Inject()(configuration: Configuration,
                              @Named("storageActor") storageActor: ActorRef)
                             (implicit ec: ExecutionContext) extends Sensor {
 
-  val domoticzConfig: DomoticzConfig = configuration.get[DomoticzConfig]("domoticz")
+  private val logger: Logger = Logger(this.getClass)
+  private val domoticzConfig: DomoticzConfig = configuration.get[DomoticzConfig]("domoticz")
 
   override def preStart(): Unit = domoticzConfig.sensors.foreach { id =>
     timers.startPeriodicTimer(PollKey(id), PollByID(id), 10 seconds)
@@ -27,14 +28,14 @@ class EnergySensor @Inject()(configuration: Configuration,
 
   override def receive: Receive = {
     case PollByID(id) =>
-      Logger.info(s"Polling energy sensor with id $id")
+      logger.info(s"Polling energy sensor with id $id")
       val tags = Seq("device" -> "domoticz", "sensorId" -> id.toString)
       domoticzService.energy(id).map {
         case Left(message) => Error(message)
         case Right(measurement) => StoreWithTags(measurement, tags)
       } pipeTo storageActor
     case ReadingByID(id) =>
-      Logger.info(s"Reading energy sensor with id $id")
+      logger.info(s"Reading energy sensor with id $id")
       domoticzService.energy(id).map {
         case Left(message) => Error(message)
         case Right(measurement) => measurement

@@ -19,6 +19,7 @@ class ThermostatSensor @Inject()(configuration: Configuration,
                                  @Named("storageActor") storageActor: ActorRef)
                                 (implicit ec: ExecutionContext) extends Sensor {
 
+  private val logger: Logger = Logger(this.getClass)
   private val tadoConfig = configuration.get[TadoConfig]("tado")
 
   override def preStart(): Unit = tadoConfig.zones.foreach { id =>
@@ -27,7 +28,7 @@ class ThermostatSensor @Inject()(configuration: Configuration,
 
   override def receive: Receive = {
     case PollByID(id) =>
-      Logger.info(s"Polling thermostat with id $id")
+      logger.info(s"Polling thermostat with id $id")
       tadoService.thermostat(id).map {
         case Left(message) => Error(message)
         case Right(thermostat) =>
@@ -35,7 +36,7 @@ class ThermostatSensor @Inject()(configuration: Configuration,
           StoreWithTags(thermostat, tags)
       } pipeTo storageActor
     case ReadingByID(id) =>
-      Logger.info(s"Reading thermostat with id $id")
+      logger.info(s"Reading thermostat with id $id")
       tadoService.thermostat(id).map {
         case Left(message) => Error(message)
         case Right(measurement) => measurement
