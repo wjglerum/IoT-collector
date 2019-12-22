@@ -7,14 +7,14 @@ import com.google.inject.Inject
 import config.InfluxDBConfig
 import io.waylay.influxdb.InfluxDB
 import models.Measurement
-import play.api.libs.ws.WSClient
+import play.api.libs.ws.StandaloneWSClient
 import play.api.{Configuration, Logger}
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
 class StorageActor @Inject()(configuration: Configuration,
-                             ws: WSClient)(implicit ec: ExecutionContext) extends Actor {
+                             ws: StandaloneWSClient)(implicit ec: ExecutionContext) extends Actor {
 
   private val logger: Logger = Logger(this.getClass)
   private val influxDBConfig: InfluxDBConfig = configuration.get[InfluxDBConfig]("influxdb")

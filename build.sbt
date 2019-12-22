@@ -1,16 +1,16 @@
 name := """iot-collector"""
 organization := "nl.wjglerum"
 
-version := "1.1"
+version := "1.2"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, DockerPlugin)
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.1"
 
 libraryDependencies ++= Seq(
   guice, ws,
-  "io.waylay.influxdb" %% "influxdb-scala" % "2.0.1",
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+  "io.waylay.influxdb" %% "influxdb-scala" % "3.0.0",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
 )
 
 dockerUpdateLatest := true

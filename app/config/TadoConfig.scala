@@ -3,7 +3,7 @@ package config
 import com.typesafe.config.Config
 import play.api.ConfigLoader
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 case class TadoConfig(clientId: String,
                       clientSecret: String,
@@ -23,7 +23,7 @@ object TadoConfig {
       password = config.getString("password"),
       username = config.getString("username"),
       homeId = config.getInt("homeId"),
-      zones = config.getIntList("zones").asScala.map(_.toInt)
+      zones = config.getIntList("zones").asScala.map(_.toInt).toSeq
     )
   }
 }

@@ -20,7 +20,7 @@ class WeatherSensor @Inject()(configuration: Configuration,
 
   private val logger: Logger = Logger(this.getClass)
 
-  override def preStart(): Unit = timers.startPeriodicTimer(PollKey, Poll, 5 minutes)
+  override def preStart(): Unit = timers.startTimerWithFixedDelay(PollKey, Poll, 5 minutes)
 
   override def receive: Receive = {
     case Poll =>
